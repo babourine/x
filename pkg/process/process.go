@@ -8,10 +8,10 @@ var osExit = os.Exit
 
 // Bail terminates program execution with an error message
 func Bail(message string, err error) {
+	code := 0
 	if err != nil {
 		os.Stderr.WriteString(message + `: ` + err.Error() + "\n")
-		osExit(1)
-	} else {
-		osExit(0)
+		code = 1
 	}
+	osExit(code)
 }
