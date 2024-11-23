@@ -37,6 +37,40 @@ func (s *Set[T]) Clear() {
 	*s = make(map[T]struct{})
 }
 
+func (s *Set[T]) Slice() []T {
+	result := make([]T, 0, len(*s))
+	for v := range *s {
+		result = append(result, v)
+	}
+	return result
+}
+
+func (s *Set[T]) SliceAny() []any {
+	result := make([]any, 0, len(*s))
+	for v := range *s {
+		result = append(result, v)
+	}
+	return result
+}
+
+func (s *Set[T]) Contains(items *Set[T]) bool {
+	for i := range *items {
+		if !s.Has(i) {
+			return false
+		}
+	}
+	return true
+}
+
+func (s *Set[T]) ContainsAny(items *Set[T]) bool {
+	for i := range *items {
+		if s.Has(i) {
+			return true
+		}
+	}
+	return false
+}
+
 func (s *Set[T]) UnmarshalJSON(data []byte) error {
 
 	temp := make([]T, 0, 10)

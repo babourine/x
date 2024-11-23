@@ -111,3 +111,30 @@ func TestUnitUnmarshalYAMLError(t *testing.T) {
 		t.Fatalf("missing expected error")
 	}
 }
+
+func TestUnitContainsSlice(t *testing.T) {
+	s := New([]int64{1, 2, 3})
+	n := New(s.Slice())
+
+	if !s.Contains(n) {
+		t.Errorf("%v != %v", s, n)
+	}
+}
+
+func TestUnitNotContains(t *testing.T) {
+	s := New([]int64{1, 2, 3})
+	n := New([]int64{4, 5})
+
+	if s.Contains(n) {
+		t.Errorf("%v == %v", s, n)
+	}
+}
+
+func TestUnitContainsAnyError(t *testing.T) {
+	s := New([]int64{1, 2, 3})
+	n := New([]int64{4, 5})
+
+	if s.ContainsAny(n) {
+		t.Errorf("%v == %v", s, n)
+	}
+}
