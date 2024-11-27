@@ -2,13 +2,16 @@ package set
 
 import (
 	"encoding/json"
+	"sort"
+
+	"golang.org/x/exp/constraints"
 )
 
 var empty struct{}
 
-type Set[T comparable] map[T]struct{}
+type Set[T constraints.Ordered] map[T]struct{}
 
-func New[T comparable](items []T) *Set[T] {
+func New[T constraints.Ordered](items []T) *Set[T] {
 	l := Set[T](make(map[T]struct{}))
 	for _, item := range items {
 		l[item] = empty
@@ -98,5 +101,21 @@ func (s *Set[T]) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	*s = *items
 
 	return nil
+
+}
+
+func (s *Set[T]) MarshalJSON() ([]byte, error) {
+
+	temp := make([]T, 0, len(*s))
+
+	for k := range *s {
+		temp = append(temp, k)
+	}
+
+	sort.Slice(temp, func(i, j int) bool {
+		return temp[i] < temp[j]
+	})
+
+	return json.Marshal(temp)
 
 }

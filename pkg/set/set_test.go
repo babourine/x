@@ -138,3 +138,12 @@ func TestUnitContainsAnyError(t *testing.T) {
 		t.Errorf("%v == %v", s, n)
 	}
 }
+
+func TestUnitMarshalJSON(t *testing.T) {
+	s := New([]string{`foo`, `bar`, `xyz`, `abc`})
+
+	if data, err := s.MarshalJSON(); err != nil || string(data) != `["abc","bar","foo","xyz"]` {
+		t.Errorf("%v %v", string(data), err)
+	}
+
+}
