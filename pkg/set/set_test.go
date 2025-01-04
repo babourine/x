@@ -147,3 +147,12 @@ func TestUnitMarshalJSON(t *testing.T) {
 	}
 
 }
+
+func TestUnitMarshalYAML(t *testing.T) {
+	s := New([]string{`foo`, `bar`, `xyz`, `abc`})
+
+	if data, err := s.MarshalYAML(); err != nil || string(data) != "- abc\n- bar\n- foo\n- xyz\n" {
+		t.Errorf("%v %v", string(data), err)
+	}
+
+}
