@@ -5,7 +5,6 @@ import (
 	"sort"
 
 	"golang.org/x/exp/constraints"
-	"gopkg.in/yaml.v3"
 )
 
 var empty struct{}
@@ -117,7 +116,7 @@ func (s *Set[T]) MarshalJSON() ([]byte, error) {
 
 }
 
-func (s *Set[T]) MarshalYAML() ([]byte, error) {
+func (s *Set[T]) MarshalYAML() (interface{}, error) {
 
 	temp := s.Slice()
 
@@ -125,6 +124,6 @@ func (s *Set[T]) MarshalYAML() ([]byte, error) {
 		return temp[i] < temp[j]
 	})
 
-	return yaml.Marshal(temp)
+	return temp, nil
 
 }
